@@ -209,7 +209,7 @@ public class CameraActivity extends Activity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    new LongOperation().execute(path);
+                                    new LongOperation().execute(picturePath);
                                 }
                             });
                         }
