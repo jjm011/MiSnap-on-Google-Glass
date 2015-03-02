@@ -33,6 +33,7 @@ import com.google.android.glass.content.Intents;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HTTP;
@@ -141,11 +142,17 @@ public class CameraActivity extends Activity {
 
                         byte[] lImageByteArray = lImageBytes.toByteArray();
 
+                        HashMap<String,String> authUser = new HashMap<String,String>();
+                        authUser.put("userName", "zbroyan@miteksystems.com");
+                        authUser.put("password", "google1");
+                        authUser.put("phoneKey", "1");
+                        authUser.put("orgName", "MobileImagingOrg");
+
                         HashMap<String,String> lValuePairs = new HashMap<String,String>();
                         lValuePairs.put("base64Image", Base64.encodeToString(lImageByteArray,Base64.DEFAULT));
                         lValuePairs.put("compressionLevel","30");
-                        lValuePairs.put("documentIdentifier", "");
-                        lValuePairs.put("documentHints", "DRIVER_LICENSE_CA");
+                        lValuePairs.put("documentIdentifier", "DRIVER_LICENSE_CA");
+                        lValuePairs.put("documentHints", "");
                         lValuePairs.put("dataReturnLevel", "15");
                         lValuePairs.put("returnImageType", "1");
                         lValuePairs.put("rotateImage", "0");
@@ -155,24 +162,38 @@ public class CameraActivity extends Activity {
                         lValuePairs.put("data4", "");
                         lValuePairs.put("data5", "");
 
+                        lValuePairs.put("userName", "zbroyan@miteksystems.com");
+                        lValuePairs.put("password", "google1");
+                        //lValuePairs.put("password", "");
+
+                        lValuePairs.put("phoneKey", "1");
+                        lValuePairs.put("orgName", "MobileImagingOrg");
+
+
+
+
                         String lSoapMsg= formatSOAPMessage("InsertPhoneTransaction",lValuePairs);
+                        //String lSoapMsg= formatSOAPMessage("AuthenticateUser",authUser);
+
                         DefaultHttpClient mHttpClient = new DefaultHttpClient();
 //                        mHttpClient.getParams().setParameter(ClientPNames.COOKIE_POLICY, CookiePolicy.R)
                         HttpPost mHttpPost = new HttpPost();
 
                         mHttpPost.setHeader("User-Agent","UCSD Team");
                         mHttpPost.setHeader("Content-typURIe","text/xml;charset=UTF-8");
-                        mHttpPost.setURI(URI.create("https://mi1.miteksystems.com/mobileimaging/ImagingPhoneService.asmx?op=InsertPhoneTransaction"));
+                        //mHttpPost.setURI(URI.create("https://mi1.miteksystems.com/mobileimaging/ImagingPhoneService.asmx?op=InsertPhoneTransaction"));
+                        mHttpPost.setURI(URI.create("https://mi1.miteksystems.com/mobileimaging/ImagingPhoneService.asmx"));
+
                         StringEntity se = new StringEntity(lSoapMsg, HTTP.UTF_8);
                         se.setContentType("text/xml; charset=UTF-8");
                         mHttpPost.setEntity(se);
                         HttpResponse mResponse = mHttpClient.execute(mHttpPost,new BasicHttpContext());
 
 
+                        String responseString = new BasicResponseHandler().handleResponse(mResponse);
 
-                        Log.i("test", "test");
+                        Log.i("test", "test:"+" "+responseString);
                     }
-
                 }
             } catch (Exception e) {
                 e.printStackTrace();
