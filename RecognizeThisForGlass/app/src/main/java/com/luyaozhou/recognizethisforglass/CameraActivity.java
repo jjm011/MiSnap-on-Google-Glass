@@ -142,11 +142,13 @@ public class CameraActivity extends Activity {
 
                         byte[] lImageByteArray = lImageBytes.toByteArray();
 
+                        /*
                         HashMap<String,String> authUser = new HashMap<String,String>();
                         authUser.put("userName", "zbroyan@miteksystems.com");
                         authUser.put("password", "google1");
                         authUser.put("phoneKey", "1");
                         authUser.put("orgName", "MobileImagingOrg");
+                        */
 
                         HashMap<String,String> lValuePairs = new HashMap<String,String>();
                         lValuePairs.put("base64Image", Base64.encodeToString(lImageByteArray,Base64.DEFAULT));
@@ -164,8 +166,6 @@ public class CameraActivity extends Activity {
 
                         lValuePairs.put("userName", "zbroyan@miteksystems.com");
                         lValuePairs.put("password", "google1");
-                        //lValuePairs.put("password", "");
-
                         lValuePairs.put("phoneKey", "1");
                         lValuePairs.put("orgName", "MobileImagingOrg");
 
