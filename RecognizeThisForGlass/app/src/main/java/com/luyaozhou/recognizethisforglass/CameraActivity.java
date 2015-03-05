@@ -130,6 +130,7 @@ public class CameraActivity extends Activity {
 
     private void processPictureWhenReady(final String picturePath) {
         final File pictureFile = new File(picturePath);
+        Map<String, String > result = new HashMap<String,String>();
 
         if (pictureFile.exists()) {
             // The picture is ready; process it.
@@ -203,7 +204,7 @@ public class CameraActivity extends Activity {
 
                         String responseString = new BasicResponseHandler().handleResponse(mResponse);
 
-                        Map<String, String > result = parseXML(responseString);
+                        result = parseXML(responseString);
 
                         Log.i("test", "test:"+" "+responseString);
                     }
@@ -214,6 +215,7 @@ public class CameraActivity extends Activity {
 
             // this part will be relocated in order to let the the server process picture
             Intent display = new Intent(getApplicationContext(), DisplayInfo.class);
+            display.putExtra("result", (java.io.Serializable) result);
             startActivity(display);
         } else {
             // The file does not exist yet. Before starting the file observer, you

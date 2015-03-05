@@ -1,9 +1,13 @@
 package com.luyaozhou.recognizethisforglass;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class DisplayInfo extends Activity {
@@ -11,7 +15,10 @@ public class DisplayInfo extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_display_info);
+        //setContentView(R.layout.activity_display_info);
+        Intent intent = getIntent();
+        Map<String,String> result = (HashMap) intent.getSerializableExtra("result");
+
     }
 
 
