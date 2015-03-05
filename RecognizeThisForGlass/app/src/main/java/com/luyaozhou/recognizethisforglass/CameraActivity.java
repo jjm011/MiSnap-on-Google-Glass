@@ -5,9 +5,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.StringReader;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -37,6 +39,15 @@ import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HTTP;
+import org.w3c.dom.CharacterData;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 //Special thanks to Nortom Lam for camera example source
 
@@ -192,6 +203,8 @@ public class CameraActivity extends Activity {
 
                         String responseString = new BasicResponseHandler().handleResponse(mResponse);
 
+                        Map<String, String > result = parseXML(responseString);
+
                         Log.i("test", "test:"+" "+responseString);
                     }
                 }
@@ -294,6 +307,52 @@ public class CameraActivity extends Activity {
         mBuilder.append(method);
         mBuilder.append("></soap:Body></soap:Envelope>");
         return mBuilder.toString();
+    }
+
+    public Map<String, String> parseXML(String xml) {
+        Map<String, String> map = new HashMap<String, String>();
+        try {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            InputSource is = new InputSource();
+            is.setCharacterStream(new StringReader(xml));
+
+            Document doc = db.parse(is);
+            NodeList nodes = doc.getElementsByTagName("ExtractedField");
+
+            // iterate the employees
+            for (int i = 0; i < nodes.getLength(); i++) {
+                Element element = (Element) nodes.item(i);
+
+                NodeList name = element.getElementsByTagName("Name");
+                Element nameE = (Element) name.item(0);
+
+                NodeList bestValue = element.getElementsByTagName("ValueBest");
+                Element bestValueE = (Element) bestValue.item(0);
+
+                map.put(getCharacterDataFromElement(nameE), getCharacterDataFromElement(bestValueE) );
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    /*
+    output :
+        Name: John
+        Title: Manager
+        Name: Sara
+        Title: Clerk
+    */
+        return map;
+    }
+
+    public static String getCharacterDataFromElement(Element e) {
+        Node child = e.getFirstChild();
+        if (child instanceof CharacterData) {
+            CharacterData cd = (CharacterData) child;
+            return cd.getData();
+        }
+        return "?";
     }
 
 
