@@ -28,6 +28,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.google.android.glass.content.Intents;
@@ -71,7 +72,8 @@ public class CameraActivity extends Activity {
         getWindow().setFormat(PixelFormat.UNKNOWN);
         SurfaceView surfaceView = (SurfaceView) findViewById(R.id.camerapreview);
         surfaceHolder = surfaceView.getHolder();
-        surfaceHolder.addCallback(new SurfaceHolderCallback());
+        surfaceHolder.addCallback(new SurfaceHolderCallback()); // keep screen on
+
     }
 
     @Override
@@ -84,8 +86,15 @@ public class CameraActivity extends Activity {
                 previewOn = false;
 
 
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE); // capture image
-                startActivityForResult(intent, PHOTO_REQUEST_CODE);
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE); // capture image
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivityForResult(intent, PHOTO_REQUEST_CODE);
+                        }
+                    }
+                });
 
                 // Return false to allow the camera button to do its default action
                 return false;
@@ -106,7 +115,6 @@ public class CameraActivity extends Activity {
                         if (intent.resolveActivity(getPackageManager()) != null) {
                             startActivityForResult(intent, PHOTO_REQUEST_CODE);
                         }
-//                        startActivityForResult(intent, PHOTO_REQUEST_CODE);
                     }
                 });
 
@@ -154,14 +162,6 @@ public class CameraActivity extends Activity {
 
                         byte[] lImageByteArray = lImageBytes.toByteArray();
 
-                        /*
-                        HashMap<String,String> authUser = new HashMap<String,String>();
-                        authUser.put("userName", "zbroyan@miteksystems.com");
-                        authUser.put("password", "google1");
-                        authUser.put("phoneKey", "1");
-                        authUser.put("orgName", "MobileImagingOrg");
-                        */
-
                         HashMap<String,String> lValuePairs = new HashMap<String,String>();
                         lValuePairs.put("base64Image", Base64.encodeToString(lImageByteArray,Base64.DEFAULT));
                         lValuePairs.put("compressionLevel","30");
@@ -175,17 +175,12 @@ public class CameraActivity extends Activity {
                         lValuePairs.put("data3", "");
                         lValuePairs.put("data4", "");
                         lValuePairs.put("data5", "");
-
                         lValuePairs.put("userName", "zbroyan@miteksystems.com");
                         lValuePairs.put("password", "google1");
                         lValuePairs.put("phoneKey", "1");
                         lValuePairs.put("orgName", "MobileImagingOrg");
 
-
-
-
                         String lSoapMsg= formatSOAPMessage("InsertPhoneTransaction",lValuePairs);
-                        //String lSoapMsg= formatSOAPMessage("AuthenticateUser",authUser);
 
                         DefaultHttpClient mHttpClient = new DefaultHttpClient();
 //                        mHttpClient.getParams().setParameter(ClientPNames.COOKIE_POLICY, CookiePolicy.R)
@@ -201,9 +196,7 @@ public class CameraActivity extends Activity {
                         mHttpPost.setEntity(se);
                         HttpResponse mResponse = mHttpClient.execute(mHttpPost,new BasicHttpContext());
 
-
                         String responseString = new BasicResponseHandler().handleResponse(mResponse);
-
                         result = parseXML(responseString);
 
                         Log.i("test", "test:"+" "+responseString);
@@ -258,25 +251,7 @@ public class CameraActivity extends Activity {
 
     }
 
-    class LongOperation extends AsyncTask<String, Void, String> {
 
-        @Override
-        protected String doInBackground(String... params) {
-            processPictureWhenReady(params[0]);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-
-        }
-
-        @Override
-        protected void onPreExecute() {}
-
-        @Override
-        protected void onProgressUpdate(Void... values) {}
-    }
 
     private String formatSOAPMessage(String method, HashMap<String, String> params)
     {
@@ -338,13 +313,7 @@ public class CameraActivity extends Activity {
         catch (Exception e) {
             e.printStackTrace();
         }
-    /*
-    output :
-        Name: John
-        Title: Manager
-        Name: Sara
-        Title: Clerk
-    */
+
         return map;
     }
 
@@ -358,6 +327,9 @@ public class CameraActivity extends Activity {
     }
 
 
+
+
+
     // camera preview stuff
     class SurfaceHolderCallback implements SurfaceHolder.Callback {
         @Override
@@ -367,12 +339,8 @@ public class CameraActivity extends Activity {
                 try {
                     Camera.Parameters params = camera.getParameters(); // must change the camera parameters to fix a bug in XE1
                     params.setPreviewFpsRange(CAMERA_FPS, CAMERA_FPS);
-                    //params.setPictureSize(320,240);
                     camera.setParameters(params);
 
-//                    Camera.Parameters params1 = camera.getParameters(); // must change the camera parameters to fix a bug in XE1
-//                    Camera.Size sizes = params1.getPictureSize();
-//                    Log.d("Hello","size : "+ sizes.width +" "+ sizes.height);
                     camera.setPreviewDisplay(surfaceHolder);
                     camera.startPreview();
                     previewOn = true;
@@ -395,6 +363,22 @@ public class CameraActivity extends Activity {
                 camera.release();  //release the camera for using it later (or if another app want to use)
             }
         }
+    }
+
+    class LongOperation extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            processPictureWhenReady(params[0]);
+            return null;
+        }
+        @Override
+        protected void onPostExecute(String result) {
+
+        }
+        @Override
+        protected void onPreExecute() {}
+        @Override
+        protected void onProgressUpdate(Void... values) {}
     }
 
 }
