@@ -61,7 +61,320 @@ public class CameraActivity extends Activity {
     private final static int CAMERA_FPS = 5000;
     String mCurrentPhotoPath;
     ImageView mImageView;
-
+    String testStr = "<ExtractedFields>\n" +
+            "    <ExtractedField>\n" +
+            "        <Name>Address AptNumber(0)</Name>\n" +
+            "        <Confidence>0</Confidence>\n" +
+            "        <Value>B</Value>\n" +
+            "        <ValueStandardized>B</ValueStandardized>\n" +
+            "        <ValuePostProcessed />\n" +
+            "        <ValueUserUpdated />\n" +
+            "        <ValueBest>B</ValueBest>\n" +
+            "        <UpperLeftX>0</UpperLeftX>\n" +
+            "        <UpperLeftY>0</UpperLeftY>\n" +
+            "        <LowerRightX>0</LowerRightX>\n" +
+            "        <LowerRightY>0</LowerRightY>\n" +
+            "        <KeywordFound />\n" +
+            "    </ExtractedField>\n" +
+            "    <ExtractedField>\n" +
+            "        <Name>Address City(0)</Name>\n" +
+            "        <Confidence>0</Confidence>\n" +
+            "        <Value>SAN DIEGO</Value>\n" +
+            "        <ValueStandardized>SAN DIEGO</ValueStandardized>\n" +
+            "        <ValuePostProcessed />\n" +
+            "        <ValueUserUpdated />\n" +
+            "        <ValueBest>SAN DIEGO</ValueBest>\n" +
+            "        <UpperLeftX>0</UpperLeftX>\n" +
+            "        <UpperLeftY>0</UpperLeftY>\n" +
+            "        <LowerRightX>0</LowerRightX>\n" +
+            "        <LowerRightY>0</LowerRightY>\n" +
+            "        <KeywordFound />\n" +
+            "    </ExtractedField>\n" +
+            "    <ExtractedField>\n" +
+            "        <Name>Address POBox(0)</Name>\n" +
+            "        <Confidence>0</Confidence>\n" +
+            "        <Value />\n" +
+            "        <ValueStandardized />\n" +
+            "        <ValuePostProcessed />\n" +
+            "        <ValueUserUpdated />\n" +
+            "        <ValueBest />\n" +
+            "        <UpperLeftX>0</UpperLeftX>\n" +
+            "        <UpperLeftY>0</UpperLeftY>\n" +
+            "        <LowerRightX>0</LowerRightX>\n" +
+            "        <LowerRightY>0</LowerRightY>\n" +
+            "        <KeywordFound />\n" +
+            "    </ExtractedField>\n" +
+            "    <ExtractedField>\n" +
+            "        <Name>Address Recipient First Name(0)</Name>\n" +
+            "        <Confidence>0</Confidence>\n" +
+            "        <Value />\n" +
+            "        <ValueStandardized>JOHN</ValueStandardized>\n" +
+            "        <ValuePostProcessed />\n" +
+            "        <ValueUserUpdated />\n" +
+            "        <ValueBest>JOHN</ValueBest>\n" +
+            "        <UpperLeftX>0</UpperLeftX>\n" +
+            "        <UpperLeftY>0</UpperLeftY>\n" +
+            "        <LowerRightX>0</LowerRightX>\n" +
+            "        <LowerRightY>0</LowerRightY>\n" +
+            "        <KeywordFound />\n" +
+            "    </ExtractedField>\n" +
+            "    <ExtractedField>\n" +
+            "        <Name>Address Recipient Formatted(0)</Name>\n" +
+            "        <Confidence>-1</Confidence>\n" +
+            "        <Value>DOE|JOHN|PHILIP|</Value>\n" +
+            "        <ValueStandardized />\n" +
+            "        <ValuePostProcessed />\n" +
+            "        <ValueUserUpdated />\n" +
+            "        <ValueBest>DOE|JOHN|PHILIP|</ValueBest>\n" +
+            "        <UpperLeftX>-1</UpperLeftX>\n" +
+            "        <UpperLeftY>-1</UpperLeftY>\n" +
+            "        <LowerRightX>-1</LowerRightX>\n" +
+            "        <LowerRightY>-1</LowerRightY>\n" +
+            "        <KeywordFound />\n" +
+            "    </ExtractedField>\n" +
+            "    <ExtractedField>\n" +
+            "        <Name>Address Recipient Last Name(0)</Name>\n" +
+            "        <Confidence>0</Confidence>\n" +
+            "        <Value />\n" +
+            "        <ValueStandardized>DOE</ValueStandardized>\n" +
+            "        <ValuePostProcessed />\n" +
+            "        <ValueUserUpdated />\n" +
+            "        <ValueBest>DOE</ValueBest>\n" +
+            "        <UpperLeftX>0</UpperLeftX>\n" +
+            "        <UpperLeftY>0</UpperLeftY>\n" +
+            "        <LowerRightX>0</LowerRightX>\n" +
+            "        <LowerRightY>0</LowerRightY>\n" +
+            "        <KeywordFound />\n" +
+            "    </ExtractedField>\n" +
+            "    <ExtractedField>\n" +
+            "        <Name>Address Recipient Middle Name(0)</Name>\n" +
+            "        <Confidence>0</Confidence>\n" +
+            "        <Value />\n" +
+            "        <ValueStandardized>PHILIP</ValueStandardized>\n" +
+            "        <ValuePostProcessed />\n" +
+            "        <ValueUserUpdated />\n" +
+            "        <ValueBest>PHILIP</ValueBest>\n" +
+            "        <UpperLeftX>0</UpperLeftX>\n" +
+            "        <UpperLeftY>0</UpperLeftY>\n" +
+            "        <LowerRightX>0</LowerRightX>\n" +
+            "        <LowerRightY>0</LowerRightY>\n" +
+            "        <KeywordFound />\n" +
+            "    </ExtractedField>\n" +
+            "    <ExtractedField>\n" +
+            "        <Name>Address Recipient Suffix Name(0)</Name>\n" +
+            "        <Confidence>0</Confidence>\n" +
+            "        <Value />\n" +
+            "        <ValueStandardized />\n" +
+            "        <ValuePostProcessed />\n" +
+            "        <ValueUserUpdated />\n" +
+            "        <ValueBest />\n" +
+            "        <UpperLeftX>0</UpperLeftX>\n" +
+            "        <UpperLeftY>0</UpperLeftY>\n" +
+            "        <LowerRightX>0</LowerRightX>\n" +
+            "        <LowerRightY>0</LowerRightY>\n" +
+            "        <KeywordFound />\n" +
+            "    </ExtractedField>\n" +
+            "    <ExtractedField>\n" +
+            "        <Name>Address Recipient(0)</Name>\n" +
+            "        <Confidence>-1</Confidence>\n" +
+            "        <Value>DOE| JOHN PHILIP</Value>\n" +
+            "        <ValueStandardized />\n" +
+            "        <ValuePostProcessed />\n" +
+            "        <ValueUserUpdated />\n" +
+            "        <ValueBest>DOE| JOHN PHILIP</ValueBest>\n" +
+            "        <UpperLeftX>-1</UpperLeftX>\n" +
+            "        <UpperLeftY>-1</UpperLeftY>\n" +
+            "        <LowerRightX>-1</LowerRightX>\n" +
+            "        <LowerRightY>-1</LowerRightY>\n" +
+            "        <KeywordFound />\n" +
+            "    </ExtractedField>\n" +
+            "    <ExtractedField>\n" +
+            "        <Name>Address State(0)</Name>\n" +
+            "        <Confidence>0</Confidence>\n" +
+            "        <Value>CA</Value>\n" +
+            "        <ValueStandardized>CA</ValueStandardized>\n" +
+            "        <ValuePostProcessed />\n" +
+            "        <ValueUserUpdated />\n" +
+            "        <ValueBest>CA</ValueBest>\n" +
+            "        <UpperLeftX>0</UpperLeftX>\n" +
+            "        <UpperLeftY>0</UpperLeftY>\n" +
+            "        <LowerRightX>0</LowerRightX>\n" +
+            "        <LowerRightY>0</LowerRightY>\n" +
+            "        <KeywordFound />\n" +
+            "    </ExtractedField>\n" +
+            "    <ExtractedField>\n" +
+            "        <Name>Address StreetName(0)</Name>\n" +
+            "        <Confidence>0</Confidence>\n" +
+            "        <Value>BALBOA AVE</Value>\n" +
+            "        <ValueStandardized>BALBOA AVE</ValueStandardized>\n" +
+            "        <ValuePostProcessed />\n" +
+            "        <ValueUserUpdated />\n" +
+            "        <ValueBest>BALBOA AVE</ValueBest>\n" +
+            "        <UpperLeftX>0</UpperLeftX>\n" +
+            "        <UpperLeftY>0</UpperLeftY>\n" +
+            "        <LowerRightX>0</LowerRightX>\n" +
+            "        <LowerRightY>0</LowerRightY>\n" +
+            "        <KeywordFound />\n" +
+            "    </ExtractedField>\n" +
+            "    <ExtractedField>\n" +
+            "        <Name>Address StreetNumber(0)</Name>\n" +
+            "        <Confidence>0</Confidence>\n" +
+            "        <Value>8911</Value>\n" +
+            "        <ValueStandardized>8911</ValueStandardized>\n" +
+            "        <ValuePostProcessed />\n" +
+            "        <ValueUserUpdated />\n" +
+            "        <ValueBest>8911</ValueBest>\n" +
+            "        <UpperLeftX>0</UpperLeftX>\n" +
+            "        <UpperLeftY>0</UpperLeftY>\n" +
+            "        <LowerRightX>0</LowerRightX>\n" +
+            "        <LowerRightY>0</LowerRightY>\n" +
+            "        <KeywordFound />\n" +
+            "    </ExtractedField>\n" +
+            "    <ExtractedField>\n" +
+            "        <Name>Address ZIP(0)</Name>\n" +
+            "        <Confidence>0</Confidence>\n" +
+            "        <Value>92123</Value>\n" +
+            "        <ValueStandardized>92123-6503</ValueStandardized>\n" +
+            "        <ValuePostProcessed />\n" +
+            "        <ValueUserUpdated />\n" +
+            "        <ValueBest>92123-6503</ValueBest>\n" +
+            "        <UpperLeftX>0</UpperLeftX>\n" +
+            "        <UpperLeftY>0</UpperLeftY>\n" +
+            "        <LowerRightX>0</LowerRightX>\n" +
+            "        <LowerRightY>0</LowerRightY>\n" +
+            "        <KeywordFound />\n" +
+            "    </ExtractedField>\n" +
+            "    <ExtractedField>\n" +
+            "        <Name>Address(0)</Name>\n" +
+            "        <Confidence>-1</Confidence>\n" +
+            "        <Value />\n" +
+            "        <ValueStandardized>DOE| JOHN PHILIP\n" +
+            "8911 BALBOA AVE STE B\n" +
+            "SAN DIEGO CA 92123</ValueStandardized>\n" +
+            "        <ValuePostProcessed />\n" +
+            "        <ValueUserUpdated />\n" +
+            "        <ValueBest>DOE| JOHN PHILIP\n" +
+            "8911 BALBOA AVE STE B\n" +
+            "SAN DIEGO CA 92123</ValueBest>\n" +
+            "        <UpperLeftX>-1</UpperLeftX>\n" +
+            "        <UpperLeftY>-1</UpperLeftY>\n" +
+            "        <LowerRightX>-1</LowerRightX>\n" +
+            "        <LowerRightY>-1</LowerRightY>\n" +
+            "        <KeywordFound />\n" +
+            "    </ExtractedField>\n" +
+            "    <ExtractedField>\n" +
+            "        <Name>Class(0)</Name>\n" +
+            "        <Confidence>-1</Confidence>\n" +
+            "        <Value>C</Value>\n" +
+            "        <ValueStandardized />\n" +
+            "        <ValuePostProcessed />\n" +
+            "        <ValueUserUpdated />\n" +
+            "        <ValueBest>C</ValueBest>\n" +
+            "        <UpperLeftX>-1</UpperLeftX>\n" +
+            "        <UpperLeftY>-1</UpperLeftY>\n" +
+            "        <LowerRightX>-1</LowerRightX>\n" +
+            "        <LowerRightY>-1</LowerRightY>\n" +
+            "        <KeywordFound />\n" +
+            "    </ExtractedField>\n" +
+            "    <ExtractedField>\n" +
+            "        <Name>Codeline(0)</Name>\n" +
+            "        <Confidence>0</Confidence>\n" +
+            "        <Value />\n" +
+            "        <ValueStandardized />\n" +
+            "        <ValuePostProcessed />\n" +
+            "        <ValueUserUpdated />\n" +
+            "        <ValueBest />\n" +
+            "        <UpperLeftX>0</UpperLeftX>\n" +
+            "        <UpperLeftY>0</UpperLeftY>\n" +
+            "        <LowerRightX>0</LowerRightX>\n" +
+            "        <LowerRightY>0</LowerRightY>\n" +
+            "        <KeywordFound />\n" +
+            "    </ExtractedField>\n" +
+            "    <ExtractedField>\n" +
+            "        <Name>DoB(0)</Name>\n" +
+            "        <Confidence>-1</Confidence>\n" +
+            "        <Value>03-14-1963</Value>\n" +
+            "        <ValueStandardized>03/14/1963</ValueStandardized>\n" +
+            "        <ValuePostProcessed />\n" +
+            "        <ValueUserUpdated />\n" +
+            "        <ValueBest>03/14/1963</ValueBest>\n" +
+            "        <UpperLeftX>-1</UpperLeftX>\n" +
+            "        <UpperLeftY>-1</UpperLeftY>\n" +
+            "        <LowerRightX>-1</LowerRightX>\n" +
+            "        <LowerRightY>-1</LowerRightY>\n" +
+            "        <KeywordFound />\n" +
+            "    </ExtractedField>\n" +
+            "    <ExtractedField>\n" +
+            "        <Name>ExpirationDate(0)</Name>\n" +
+            "        <Confidence>-1</Confidence>\n" +
+            "        <Value>01-06-2018</Value>\n" +
+            "        <ValueStandardized>01/06/2018</ValueStandardized>\n" +
+            "        <ValuePostProcessed />\n" +
+            "        <ValueUserUpdated />\n" +
+            "        <ValueBest>01/06/2018</ValueBest>\n" +
+            "        <UpperLeftX>-1</UpperLeftX>\n" +
+            "        <UpperLeftY>-1</UpperLeftY>\n" +
+            "        <LowerRightX>-1</LowerRightX>\n" +
+            "        <LowerRightY>-1</LowerRightY>\n" +
+            "        <KeywordFound />\n" +
+            "    </ExtractedField>\n" +
+            "    <ExtractedField>\n" +
+            "        <Name>ID(0)</Name>\n" +
+            "        <Confidence>-1</Confidence>\n" +
+            "        <Value>D3141592</Value>\n" +
+            "        <ValueStandardized />\n" +
+            "        <ValuePostProcessed />\n" +
+            "        <ValueUserUpdated />\n" +
+            "        <ValueBest>D3141592</ValueBest>\n" +
+            "        <UpperLeftX>-1</UpperLeftX>\n" +
+            "        <UpperLeftY>-1</UpperLeftY>\n" +
+            "        <LowerRightX>-1</LowerRightX>\n" +
+            "        <LowerRightY>-1</LowerRightY>\n" +
+            "        <KeywordFound />\n" +
+            "    </ExtractedField>\n" +
+            "    <ExtractedField>\n" +
+            "        <Name>IssuedDate(0)</Name>\n" +
+            "        <Confidence>-1</Confidence>\n" +
+            "        <Value>09-02-2011</Value>\n" +
+            "        <ValueStandardized>09/02/2011</ValueStandardized>\n" +
+            "        <ValuePostProcessed />\n" +
+            "        <ValueUserUpdated />\n" +
+            "        <ValueBest>09/02/2011</ValueBest>\n" +
+            "        <UpperLeftX>-1</UpperLeftX>\n" +
+            "        <UpperLeftY>-1</UpperLeftY>\n" +
+            "        <LowerRightX>-1</LowerRightX>\n" +
+            "        <LowerRightY>-1</LowerRightY>\n" +
+            "        <KeywordFound />\n" +
+            "    </ExtractedField>\n" +
+            "    <ExtractedField>\n" +
+            "        <Name>MatchingTemplate(0)</Name>\n" +
+            "        <Confidence>-1</Confidence>\n" +
+            "        <Value>CA_L2</Value>\n" +
+            "        <ValueStandardized />\n" +
+            "        <ValuePostProcessed />\n" +
+            "        <ValueUserUpdated />\n" +
+            "        <ValueBest>CA_L2</ValueBest>\n" +
+            "        <UpperLeftX>-1</UpperLeftX>\n" +
+            "        <UpperLeftY>-1</UpperLeftY>\n" +
+            "        <LowerRightX>-1</LowerRightX>\n" +
+            "        <LowerRightY>-1</LowerRightY>\n" +
+            "        <KeywordFound />\n" +
+            "    </ExtractedField>\n" +
+            "    <ExtractedField>\n" +
+            "        <Name>Sex(0)</Name>\n" +
+            "        <Confidence>-1</Confidence>\n" +
+            "        <Value>M</Value>\n" +
+            "        <ValueStandardized />\n" +
+            "        <ValuePostProcessed />\n" +
+            "        <ValueUserUpdated />\n" +
+            "        <ValueBest>M</ValueBest>\n" +
+            "        <UpperLeftX>-1</UpperLeftX>\n" +
+            "        <UpperLeftY>-1</UpperLeftY>\n" +
+            "        <LowerRightX>-1</LowerRightX>\n" +
+            "        <LowerRightY>-1</LowerRightY>\n" +
+            "        <KeywordFound />\n" +
+            "    </ExtractedField>\n" +
+            "</ExtractedFields>";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,8 +385,8 @@ public class CameraActivity extends Activity {
         getWindow().setFormat(PixelFormat.UNKNOWN);
         SurfaceView surfaceView = (SurfaceView) findViewById(R.id.camerapreview);
         surfaceHolder = surfaceView.getHolder();
-        surfaceHolder.addCallback(new SurfaceHolderCallback()); // keep screen on
-
+        surfaceHolder.addCallback(new SurfaceHolderCallback());
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);  // keep screen on
     }
 
     @Override
@@ -197,9 +510,13 @@ public class CameraActivity extends Activity {
                         HttpResponse mResponse = mHttpClient.execute(mHttpPost,new BasicHttpContext());
 
                         String responseString = new BasicResponseHandler().handleResponse(mResponse);
-                        result = parseXML(responseString);
+                        //result = parseXML(responseString);
 
+                        //Todo: this is test code. Need to be implemented
+                        result = parseXML(testStr);
                         Log.i("test", "test:"+" "+responseString);
+                        Log.i("test", "test: "+" "+result.size());
+
                     }
                 }
             } catch (Exception e) {
@@ -250,7 +567,6 @@ public class CameraActivity extends Activity {
         }
 
     }
-
 
 
     private String formatSOAPMessage(String method, HashMap<String, String> params)
