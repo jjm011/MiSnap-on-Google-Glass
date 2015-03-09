@@ -54,7 +54,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 //Special thanks to Nortom Lam for camera example source
 
-public class CameraActivity extends Activity {
+public class ViewFinder extends Activity {
     private static final int PHOTO_REQUEST_CODE=1;
     private SurfaceHolder surfaceHolder;
     private Camera camera;
@@ -64,6 +64,9 @@ public class CameraActivity extends Activity {
     String mCurrentPhotoPath;
     ImageView mImageView;
     private boolean keyEnable = true;
+    Map<String, String> map = new HashMap<String, String>();
+    Map<String, String> iQAMsg = new HashMap<String, String>();
+
     //private CardScrollView mCardScroller;
     //private Slider mSlider;
 
@@ -150,7 +153,7 @@ public class CameraActivity extends Activity {
 
     private void processPictureWhenReady(final String picturePath) {
         final File pictureFile = new File(picturePath);
-        Map<String, String > result = new HashMap<String,String>();
+        //Map<String, String > result = new HashMap<String,String>();
 
         if (pictureFile.exists()) {
             // The picture is ready; process it.
@@ -209,12 +212,12 @@ public class CameraActivity extends Activity {
                         HttpResponse mResponse = mHttpClient.execute(mHttpPost,new BasicHttpContext());
 
                         String responseString = new BasicResponseHandler().handleResponse(mResponse);
-                        result = parseXML(responseString);
+                        parseXML(responseString);
 
                         //Todo: this is test code. Need to be implemented
                         //result = parseXML(testStr);
                         Log.i("test", "test:"+" "+responseString);
-                        Log.i("test", "test: "+" "+result.size());
+                        Log.i("test", "test: "+" "+map.size());
 
                     }
                 }
@@ -223,9 +226,17 @@ public class CameraActivity extends Activity {
             }
 
             // this part will be relocated in order to let the the server process picture
-            Intent display = new Intent(getApplicationContext(), DisplayInfo.class);
-            display.putExtra("result", (java.io.Serializable) result);
-            startActivity(display);
+            if (map.size() == 0){
+                Intent display = new Intent(getApplicationContext(), DisplayInfoFailed.class);
+                display.putExtra("result", (java.io.Serializable) iQAMsg);
+                startActivity(display);
+            }
+            else{
+                Intent display = new Intent(getApplicationContext(), DisplayInfo.class);
+                display.putExtra("result", (java.io.Serializable) map);
+                startActivity(display);
+
+            }
         } else {
             // The file does not exist yet. Before starting the file observer, you
             // can update your UI to let the user know that the application is
@@ -301,8 +312,8 @@ public class CameraActivity extends Activity {
         return mBuilder.toString();
     }
 
-    public Map<String, String> parseXML(String xml) {
-        Map<String, String> map = new HashMap<String, String>();
+    public void parseXML(String xml) {
+        //Map<String, String> map = new HashMap<String, String>();
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
@@ -324,12 +335,16 @@ public class CameraActivity extends Activity {
 
                 map.put(getCharacterDataFromElement(nameE), getCharacterDataFromElement(bestValueE) );
             }
+            //if(map.size() == 0){
+            NodeList imageQuality = doc.getElementsByTagName("IQAMessage");
+            Element iqaMsg = (Element) imageQuality.item(0);
+            iQAMsg.put("IQAMessage",getCharacterDataFromElement(iqaMsg));
+            //}
         }
         catch (Exception e) {
             e.printStackTrace();
         }
-
-        return map;
+        return;
     }
 
     public static String getCharacterDataFromElement(Element e) {
@@ -340,9 +355,6 @@ public class CameraActivity extends Activity {
         }
         return "?";
     }
-
-
-
 
 
     // camera preview stuff
